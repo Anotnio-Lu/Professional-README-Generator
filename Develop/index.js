@@ -5,6 +5,19 @@ const inquirer = require('inquirer');
 const questions = [
     {
         type: 'input',
+        name: 'fileName',
+        message: 'README file name? (Required)',
+        validate: fileName => {
+            if (fileName) {
+            return true;
+            } else {
+            console.log('Please enter your README file name.');
+            return false;
+            }
+        }
+    },
+    {
+        type: 'input',
         name: 'title',
         message: 'Project title? (Required)',
         validate: titleInput => {
@@ -129,10 +142,29 @@ const questions = [
 ];
 
 // TODO: Create a function to write README file
-function writeToFile(fileName, data) {}
+function writeToFile(fileName, data) {
+    const readme = readmeFile.readMeGenerator(data)
+
+    fs.writeFile(fileName, readme, error => {
+      if (error) {
+        console.log('Sorry there was an error : ' + error);
+      } else {
+        console.log('Success: new README.md file generated. \nImportant note: The README file will override the last README file created. \nTo avoid this please move README file to another location.');
+      }
+    })
+}
 
 // TODO: Create a function to initialize app
-function init() {}
+function init() {
+    return inquirer.prompt(questions)
+    .then((response) => {
+      console.log('Thank you! Processing your README file: ', response)
+      writeToFile(response.fileName, response)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+}
 
 // Function call to initialize app
 init();
