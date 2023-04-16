@@ -3,11 +3,16 @@
 function renderLicenseBadge(license) {
   const bagdes = {
     MIT: ' [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)', 
-    Apache_2 : '[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)', 
+    Apache2 : '[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)', 
     Boost_Software_License_1: '[![License](https://img.shields.io/badge/License-Boost_1.0-lightblue.svg)](https://www.boost.org/LICENSE_1_0.txt)', 
     GNU_GPL_v3: ' [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)', 
   }
-  return bagdes[input]
+  if(license == "NO_LICENSE"){
+    return ''
+  } else{
+    return bagdes[license]
+  }
+
 }
 
 // TODO: Create a function that returns the license link
@@ -19,19 +24,39 @@ function renderLicenseLink(license) {
     Boost_Software_License_1: 'https://choosealicense.com/licenses/bsl-1.0/', 
     GNU_GPL_v3: 'https://choosealicense.com/licenses/gpl-3.0/', 
   }
-  return links[input]
+  if(license == "NO_LICENSE"){
+    return ''
+  } else{
+    return 'This Project is using the<br>' + license +'<br>For more information, please click on the below link:<br>'+ links[license]
+  }
 }
 
 // TODO: Create a function that returns the license section of README
 // If there is no license, return an empty string
-function renderLicenseSection(license) {}
+function renderLicenseSection(license) {
+  if(license == "NO_LICENSE"){
+    return ''
+  } else{
+    return '## License'
+  }
+
+}
+
+
+function codeBlock(input){
+  var array = input.split(',');
+  var joined = array.join('\n')
+
+  var code = "```\n" + joined + "\n" +  "```"
+  return code 
+}
 
 // TODO: Create a function to generate markdown for README
 function generateMarkdown(input) {
   return `
 # ${input.title}
 
-${licenseBadge(input.license)}
+${renderLicenseBadge(input.license)}
 
 ## Table of Content
 
@@ -65,13 +90,10 @@ ${input.contributionGuideline}
 The below is the instructions to test the project<br>
 ${input.testInstructions}
 
-## License
 
-This Project is using the<br>
-${input.license}
+${renderLicenseSection(input.license)}
 
-For more information, please click on the below link:<br>
-${licenseInfo(input.license)}
+${renderLicenseLink(input.license)}
 
 ## Questions
 
@@ -83,4 +105,7 @@ ${input.email}
 `;
 }
 
-module.exports = generateMarkdown;
+
+module.exports = {
+  generateMarkdown
+}
