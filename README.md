@@ -48,6 +48,9 @@ The project was approached by first identifying the requirements and objectives 
 ## Conclusion
 This application simplifies the process of generating a high-quality README file for open source projects on GitHub. By using the Inquirer package, users can quickly input the necessary information for the README, allowing project creators to spend more time on the actual project development. The application is user-friendly and meets all the acceptance criteria, making it an effective tool for developers.
 
+## Sample READEME file
+
+https://github.com/Anotnio-Lu/Professional-README-Generator/blob/main/Develop/README-sample.md
 
 ## Link
 
