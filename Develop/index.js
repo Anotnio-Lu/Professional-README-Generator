@@ -1,12 +1,14 @@
 // TODO: Include packages needed for this application
+const fs = require('fs');
 const inquirer = require('inquirer');
+const readmeFile = require('./utils/generateMarkdown');
 
 // TODO: Create an array of questions for user input
 const questions = [
     {
         type: 'input',
         name: 'fileName',
-        message: 'README file name? (Required)',
+        message: 'README file name? (Required) REMEMBER to enter ".md" after the file name.',
         validate: fileName => {
             if (fileName) {
             return true;
@@ -111,7 +113,7 @@ const questions = [
         type: 'list',
         name: 'license',
         message: 'What license will you be using for this project? (Use arrow key to select)',
-        choices:['MIT', 'Apache_2', 'Boost_Software_License_1', 'GNU_GPL_v3'],
+        choices:['MIT', 'Apache_2', 'Boost_Software_License_1', 'GNU_GPL_v3', 'NO_LICENSE'],
       },
       {
         type: 'input',
@@ -143,13 +145,12 @@ const questions = [
 
 // TODO: Create a function to write README file
 function writeToFile(fileName, data) {
-    const readme = readmeFile.readMeGenerator(data)
 
-    fs.writeFile(fileName, readme, error => {
+    fs.writeFile(fileName, data, error => {
       if (error) {
         console.log('Sorry there was an error : ' + error);
       } else {
-        console.log('Success: new README.md file generated. \nImportant note: The README file will override the last README file created. \nTo avoid this please move README file to another location.');
+        console.log('Success: new README.md file generated. \nImportant note: The README file will override the last README file created if you dont change the file name.');
       }
     })
 }
@@ -159,7 +160,10 @@ function init() {
     return inquirer.prompt(questions)
     .then((response) => {
       console.log('Thank you! Processing your README file: ', response)
-      writeToFile(response.fileName, response)
+
+      const readme = readmeFile.generateMarkdown(response)
+      writeToFile(response.fileName, readme)
+
     })
     .catch((error) => {
       console.log(error)
