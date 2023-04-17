@@ -150,7 +150,7 @@ function writeToFile(fileName, data) {
       if (error) {
         console.log('Sorry there was an error : ' + error);
       } else {
-        console.log('Success: new README.md file generated. \nImportant note: The README file will override the last README file created if you dont change the file name.');
+        console.log('Success: new README.md file generated. \nImportant note: The README file will override the last README file created if you dont enter a new file name.');
       }
     })
 }
